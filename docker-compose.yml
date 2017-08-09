@@ -1,0 +1,28 @@
+db:
+  image: alexsuzume/mysql-data:0.1
+  environment:
+    MYSQL_ROOT_PASSWORD: admin
+    # MYSQL_USER:
+    # MYSQL_PASSWORD:
+  volumes:
+    - ./data:/var/lib/mysql
+  ports:
+    - 3306:3306
+
+adminer:
+  image: adminer
+  ports:
+    - 8080:8080
+  links:
+    - db
+
+web:
+  build: .
+  ports:
+    - 80:80
+  volumes:
+    - ./src:/var/www/html
+  links:
+    - db
+    - adminer
+
